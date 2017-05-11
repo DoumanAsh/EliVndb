@@ -21,12 +21,26 @@ defmodule EliVndb.Client do
 
     **NOTE:** VNDB allows only up to 10 clients from the same API. Global client is preferable way to work with VNDB API.
 
-  ## Get
+  ## Available commands
+
+  ### dbstats
+    Just retrieves statistics from VNDB.
+
+  ### get
     Each get command requires to specify flags & filters.
 
     Following default values are used by EliVndb:
     * `flags = ["basic"]`
     * `filters = id >= 1`
+
+    On success it returns `{:results, %{...}}`
+
+  ### set
+    Each set command requires you to provide ID of modified object.
+
+    On success it returns `{:ok, ${...}}`
+
+    **NOTE:** For set commands successful response contains empty payload as of now. You might as well to ignore it.
 
   ## Result
     Each function that returns map will has keys as strings.
@@ -48,11 +62,17 @@ defmodule EliVndb.Client do
   # All VNDB messages end with this byte
   @msg_end <<4>>
 
+  ##Constants
+  @doc "Returns name of global client."
+  def global_name, do: @name
+
   ##Client API
   @typedoc "Client initialization options"
   @type start_options :: [global: boolean()]
   @typedoc "Get command options"
-  @type get_options :: [command: iodata(), flags: list(iodata()), filters: iodata(), options: Map.t()]
+  @type get_options :: [type: iodata(), flags: list(iodata()), filters: iodata(), options: Map.t()]
+  @typedoc "Set command options"
+  @type set_options :: [type: iodata(), id: integer, fields: Map.t()]
 
   @spec start_link(start_options()) :: GenServer.on_start()
   @doc """
@@ -151,13 +171,9 @@ defmodule EliVndb.Client do
 
   @spec get_vn(get_options(), GenServer.server()) :: term()
   @doc """
-  Performs GET vn command.
-
-  [Reference](https://vndb.org/d11#5.1)
+  Performs GET command with vn type.
 
   The same as `EliVndb.Client.get/2`
-
-  Except `:type = "vn"` by default.
   """
   def get_vn(options, pid \\ @name) do
     get(Keyword.put(options, :type, "vn"), pid)
@@ -165,13 +181,9 @@ defmodule EliVndb.Client do
 
   @spec get_release(get_options(), GenServer.server()) :: term()
   @doc """
-  Performs GET release command.
-
-  [Reference](https://vndb.org/d11#5.2)
+  Performs GET command with release type.
 
   The same as `EliVndb.Client.get/2`
-
-  Except `:type = "release"` by default.
   """
   def get_release(options, pid \\ @name) do
     get(Keyword.put(options, :type, "release"), pid)
@@ -179,13 +191,9 @@ defmodule EliVndb.Client do
 
   @spec get_producer(get_options(), GenServer.server()) :: term()
   @doc """
-  Performs GET release command.
-
-  [Reference](https://vndb.org/d11#5.3)
+  Performs GET command with producer type.
 
   The same as `EliVndb.Client.get/2`
-
-  Except `:type = "producer"` by default.
   """
   def get_producer(options, pid \\ @name) do
     get(Keyword.put(options, :type, "producer"), pid)
@@ -193,13 +201,9 @@ defmodule EliVndb.Client do
 
   @spec get_character(get_options(), GenServer.server()) :: term()
   @doc """
-  Performs GET character command.
-
-  [Reference](https://vndb.org/d11#5.4)
+  Performs GET command with character type.
 
   The same as `EliVndb.Client.get/2`
-
-  Except `:type = "character"` by default.
   """
   def get_character(options, pid \\ @name) do
     get(Keyword.put(options, :type, "character"), pid)
@@ -207,13 +211,9 @@ defmodule EliVndb.Client do
 
   @spec get_staff(get_options(), GenServer.server()) :: term()
   @doc """
-  Performs GET staff command.
-
-  [Reference](https://vndb.org/d11#5.5)
+  Performs GET command with staff type.
 
   The same as `EliVndb.Client.get/2`
-
-  Except `:type = "character"` by default.
   """
   def get_staff(options, pid \\ @name) do
     get(Keyword.put(options, :type, "staff"), pid)
@@ -221,13 +221,9 @@ defmodule EliVndb.Client do
 
   @spec get_user(get_options(), GenServer.server()) :: term()
   @doc """
-  Performs GET user command.
-
-  [Reference](https://vndb.org/d11#5.6)
+  Performs GET command with user type.
 
   The same as `EliVndb.Client.get/2`
-
-  Except `:type = "user"` by default.
   """
   def get_user(options, pid \\ @name) do
     get(Keyword.put(options, :type, "user"), pid)
@@ -235,13 +231,9 @@ defmodule EliVndb.Client do
 
   @spec get_votelist(get_options(), GenServer.server()) :: term()
   @doc """
-  Performs GET votelist command.
-
-  [Reference](https://vndb.org/d11#5.7)
+  Performs GET command with votelist.
 
   The same as `EliVndb.Client.get/2`
-
-  Except `:type = "votelist"` by default.
   """
   def get_votelist(options, pid \\ @name) do
     get(Keyword.put(options, :type, "votelist"), pid)
@@ -249,13 +241,9 @@ defmodule EliVndb.Client do
 
   @spec get_vnlist(get_options(), GenServer.server()) :: term()
   @doc """
-  Performs GET vnlist command.
-
-  [Reference](https://vndb.org/d11#5.8)
+  Performs GET command with vnlist type.
 
   The same as `EliVndb.Client.get/2`
-
-  Except `:type = "vnlist"` by default.
   """
   def get_vnlist(options, pid \\ @name) do
     get(Keyword.put(options, :type, "vnlist"), pid)
@@ -263,16 +251,61 @@ defmodule EliVndb.Client do
 
   @spec get_wishlist(get_options(), GenServer.server()) :: term()
   @doc """
-  Performs GET wishlist command.
-
-  [Reference](https://vndb.org/d11#5.9)
+  Performs GET command with wishlist type.
 
   The same as `EliVndb.Client.get/2`
-
-  Except `:type = "wishlist"` by default.
   """
   def get_wishlist(options, pid \\ @name) do
     get(Keyword.put(options, :type, "wishlist"), pid)
+  end
+
+  @spec set(set_options(), GenServer.server()) :: term()
+  @doc """
+  Performs SET command.
+
+  [Reference](https://vndb.org/d11#6)
+
+  Arguments:
+  * `options` - Keyword list of command options. See below.
+  * `pid` - Client identifier. Global is used as default.
+
+  Options:
+  * `:type` - Command type. See VNDB API for possible values.
+  * `:id` - Identifier of object on which to perform SET.
+  * `:fields` - Map of object's field to its new value.
+  """
+  def set(options, pid \\ @name) do
+    GenServer.call(pid, {:set, options})
+  end
+
+  @spec set_votelist(set_options(), GenServer.server()) :: term()
+  @doc """
+  Performs SET command with votelist type.
+
+  The same as `EliVndb.Client.set/2`
+  """
+  def set_votelist(options, pid \\ @name) do
+    set(Keyword.put(options, :type, "votelist"), pid)
+  end
+
+  @spec set_vnlist(set_options(), GenServer.server()) :: term()
+  @doc """
+  Performs SET command with votelist type.
+
+  The same as `EliVndb.Client.set/2`
+  """
+  def set_vnlist(options, pid \\ @name) do
+    set(Keyword.put(options, :type, "vnlist"), pid)
+  end
+
+  @spec set_wishlist(set_options(), GenServer.server()) :: term()
+  @doc """
+  Performs SET command with votelist type.
+
+  The same as `EliVndb.Client.set/2`
+  """
+  def set_wishlist(options, pid \\ @name) do
+    set(Keyword.put(options, :type, "wishlist"), pid)
   end
 
   ## Server callbacks
@@ -308,6 +341,16 @@ defmodule EliVndb.Client do
     {:noreply, Map.put(state, :queue, :queue.in(from, queue))}
   end
 
+  def handle_call({:set, args}, from, %{queue: queue} = state) do
+    msg = vndb_msg("set #{args[:type]} #{args[:id]} #{set_fields(args)}")
+
+    Logger.info fn -> 'Send set vn=#{msg}' end
+    :ok = :ssl.send(state.socket, msg)
+
+    {:noreply, Map.put(state, :queue, :queue.in(from, queue))}
+  end
+
+
   def handle_info({:ssl, _socket, msg}, %{queue: queue} = state) do
     {{:value, client}, new_queue} = :queue.out(queue)
 
@@ -326,8 +369,10 @@ defmodule EliVndb.Client do
   ## Utils
   @spec vndb_msg_parse(String.t()) :: tuple()
   defp vndb_msg_parse(msg) do
-    [name, value] = String.split(String.trim_trailing(msg, @msg_end), " ", parts: 2)
-    {String.to_atom(name), Poison.decode!(value)}
+    case String.split(String.trim_trailing(msg, @msg_end), " ", parts: 2) do
+      [name] -> {String.to_atom(name), %{}} # For consistency sake let's return empty map.
+      [name, value] -> {String.to_atom(name), Poison.decode!(value)}
+    end
   end
 
   @spec vndb_msg(String.t()) :: String.t()
@@ -371,5 +416,14 @@ defmodule EliVndb.Client do
     end
   end
 
+  # Set utils
+  @spec set_fields(Map.t()) :: iodata()
+  defp set_fields(args) do
+    case Keyword.get(args, :fields) do
+      nil -> ""
+      %{} -> ""
+      opts -> Poison.encode!(opts)
+    end
+  end
 end
 
