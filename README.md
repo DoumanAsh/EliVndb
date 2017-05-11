@@ -4,7 +4,7 @@ Kawaii VNDB API for Elixir
 
 [VNDB API Refernce](https://vndb.org/d11)
 
-## `EliVndb.Client` types
+## EliVndb.Client types
 
 ### Global
 In order to start global client use `EliVndb.Client.start_link/1` or `EliVndb.Client.start_link/3` without options or with `:global` set to true.
