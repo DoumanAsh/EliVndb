@@ -1,9 +1,28 @@
 defmodule EliVndb.Client do
   @moduledoc """
-  VNDB API Client
+  VNDB API Client Module.
 
-  Once client is started, all other API functions will become available.
-  As VNDB allows login only once, you need to re-create it anew in order to re-login.
+  [VNDB API Refernce](https://vndb.org/d11)
+
+  There are two ways to work with `EliVndb.Client`
+
+  ## Global
+    In order to start global client use `EliVndb.Client.start_link/1` or `EliVndb.Client.start_link/3` without options or with `:global` set to true.
+
+    Since the client registered globally, once client is started, all other API functions will become available.
+
+    As VNDB allows login only once, you need to re-create it anew in order to re-login.
+    You can use method `EliVndb.Client.stop/0` to terminate currently running global client.
+
+  ## Local
+    In order to start local client use `EliVndb.Client.start_link/1` or `EliVndb.Client.start_link/3` with `:global` set to false.
+
+    To use local client, you'll need to provide its pid in all API calls.
+
+    **NOTE:** VNDB allows only up to 10 clients from the same API. Global client is preferable way to work with VNDB API.
+
+  ## Result
+    Each function that returns map will has keys as strings.
   """
   require Logger
   @behaviour GenServer
@@ -23,44 +42,83 @@ defmodule EliVndb.Client do
   @msg_end <<4>>
 
   ##Client API
+  @typedoc "Client initialization options"
+  @type start_options :: [global: boolean()]
 
-  @spec start_link() :: GenServer.on_start()
+  @spec start_link(start_options()) :: GenServer.on_start()
   @doc """
   Starts VNDB API Client without authorization.
 
   Note that some VNDB APIs may require you to provide login/password.
+
+  Options:
+    * `:global` - whether to register client globally.
   """
-  def start_link() do
-    start_link(nil, nil)
+  def start_link(opts \\ []) do
+    start_link(nil, nil, opts)
   end
 
-  @spec start_link(any(), any()) :: GenServer.on_start()
+  @spec start_link(binary | nil, binary | nil, start_options()) :: GenServer.on_start()
   @doc """
   Starts VNDB API Client with provided credentials.
+
+  Parameters:
+    * `user` - Username to use for login. To omit provide `nil`
+    * `password` - Password to use for login. To omit provide `nil`
+
+  Options:
+    * `:global` - whether to register client globally.
   """
-  def start_link(user, password) do
-    GenServer.start_link(__MODULE__, Map.merge(@initial_state, %{user: user, password: password}), name: @name)
+  def start_link(user, password, opts \\ []) do
+    initial_state = Map.merge(@initial_state, %{user: user, password: password})
+
+    case Keyword.get(opts, :global, true) do
+      true -> GenServer.start_link(__MODULE__, initial_state, name: @name)
+      false -> GenServer.start_link(__MODULE__, initial_state)
+    end
+  end
+
+  @spec stop(GenServer.server()) :: :ok
+  @doc """
+  Stops particular client
+  """
+  def stop(pid) do
+    GenServer.stop(pid)
   end
 
   @spec stop() :: :ok
   @doc """
-  Stops client.
+  Stops global client.
 
   Does nothing if client hasn't been started.
   """
   def stop() do
     case GenServer.whereis(@name) do
       nil -> :ok
-      _ -> GenServer.stop(@name)
+      _ -> stop(@name)
     end
+  end
+
+  @spec dbstats(GenServer.server()) :: term()
+  @doc """
+  Retrieves VNDB stats using particular client.
+
+  [Reference](https://vndb.org/d11#4)
+
+  On success returns: `{:dbstats, map()}`
+  """
+  def dbstats(pid) do
+    GenServer.call(pid, :dbstats)
   end
 
   @spec dbstats() :: term()
   @doc """
-  Retrieves VNDB stats.
+  Retrieves VNDB stats using global client.
+
+  See `EliVndb.Client.dbstats/1`
   """
   def dbstats() do
-    GenServer.call(@name, :dbstats)
+    dbstats(@name)
   end
 
   ## Server callbacks
@@ -106,7 +164,7 @@ defmodule EliVndb.Client do
   @spec vndb_msg_parse(String.t()) :: tuple()
   defp vndb_msg_parse(msg) do
     [name, value] = String.split(String.trim_trailing(msg, @msg_end), " ", parts: 2)
-    {name, Poison.decode!(value)}
+    {String.to_atom(name), Poison.decode!(value)}
   end
 
   @spec vndb_msg(String.t()) :: String.t()

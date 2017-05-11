@@ -1,4 +1,4 @@
-defmodule VndbTest do
+defmodule EliVndbTest do
   use ExUnit.Case
-  doctest EliVndb.Client
+  doctest EliVndb
 end
