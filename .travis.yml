@@ -1,0 +1,16 @@
+language: elixir
+elixir:
+  - 1.4.0
+
+otp_release:
+  - 18.3
+
+script:
+  - mix deps.get
+  - mix compile
+  - mix credo
+  - mix test
+
+after_success:
+  - mix docs
+  - bash ./ci/update_page.sh

@@ -1,0 +1,1017 @@
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.15.1">
+    <title>EliVndb.Client – EliVndb v0.1.0</title>
+    <link rel="stylesheet" href="dist/app-af302bfcc4.css" />
+    
+    <script src="dist/sidebar_items-9ef8a0cd48.js"></script>
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+
+    <div class="main">
+<button class="sidebar-toggle">
+  <i class="icon-menu"></i>
+</button>
+<section class="sidebar">
+
+  
+  <a href="EliVndb.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+        EliVndb
+      </h1>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+    
+  </a>
+
+  <div class="sidebar-search">
+    <i class="icon-search"></i>
+    <input type="text" class="sidebar-searchInput" placeholder="search" autocomplete="off" />
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+    
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+    
+
+    
+
+    
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">EliVndb v0.1.0</small>
+        EliVndb.Client
+        
+        
+      </h1>
+
+      
+        <section id="moduledoc">
+          <p>VNDB API Client Module.</p>
+<p><a href="https://vndb.org/d11">VNDB API Refernce</a></p>
+<h2 id="module-types" class="section-heading">
+  <a href="#module-types" class="hover-link"><i class="icon-link"></i></a>
+  <a href="EliVndb.Client.html#content"><code class="inline">EliVndb.Client</code></a> types
+</h2>
+
+<h3>Global</h3>
+<p>  In order to start global client use <a href="EliVndb.Client.html#start_link/1"><code class="inline">EliVndb.Client.start_link/1</code></a> or <a href="EliVndb.Client.html#start_link/3"><code class="inline">EliVndb.Client.start_link/3</code></a> without options or with <code class="inline">:global</code> set to true.</p>
+<p>  Since the client registered globally, once client is started, all other API functions will become available.</p>
+<p>  As VNDB allows login only once, you need to re-create it anew in order to re-login.
+  You can use method <a href="EliVndb.Client.html#stop/0"><code class="inline">EliVndb.Client.stop/0</code></a> to terminate currently running global client.</p>
+<h3>Local</h3>
+<p>  In order to start local client use <a href="EliVndb.Client.html#start_link/1"><code class="inline">EliVndb.Client.start_link/1</code></a> or <a href="EliVndb.Client.html#start_link/3"><code class="inline">EliVndb.Client.start_link/3</code></a> with <code class="inline">:global</code> set to false.</p>
+<p>  To use local client, you’ll need to provide its pid in all API calls.</p>
+<p>  <strong>NOTE:</strong> VNDB allows only up to 10 clients from the same API. Global client is preferable way to work with VNDB API.</p>
+<h2 id="module-available-commands" class="section-heading">
+  <a href="#module-available-commands" class="hover-link"><i class="icon-link"></i></a>
+  Available commands
+</h2>
+
+<h3>dbstats</h3>
+<p>  Just retrieves statistics from VNDB.</p>
+<h3>get</h3>
+<p>  Each get command requires to specify flags &amp; filters.</p>
+<p>  Following default values are used by EliVndb:</p>
+<ul>
+<li><code class="inline">flags = [&quot;basic&quot;]</code>
+</li>
+<li><p><code class="inline">filters = id &gt;= 1</code></p>
+<p>  On success it returns <code class="inline">{:results, %{...}}</code></p>
+</li>
+</ul>
+<h3>set</h3>
+<p>  Each set command requires you to provide ID of modified object.</p>
+<p>  On success it returns <code class="inline">{:ok, ${...}}</code></p>
+<p>  <strong>NOTE:</strong> For set commands successful response contains empty payload as of now. You might as well to ignore it.</p>
+<h2 id="module-result" class="section-heading">
+  <a href="#module-result" class="hover-link"><i class="icon-link"></i></a>
+  Result
+</h2>
+
+<p>  Each function that returns map will has keys as strings.</p>
+
+        </section>
+      
+
+      
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <i class="icon-link"></i>
+            </a>
+            Summary
+          </h1>
+          
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:get_options/0">get_options()</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Get command options</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:set_options/0">set_options()</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Set command options</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:start_options/0">start_options()</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Client initialization options</p>
+</div>
+  
+</div>
+
+  </div>
+
+
+          
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#dbstats/1">dbstats(pid \\ EliVndb.Client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Retrieves VNDB stats using particular client</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get/2">get(options, pid \\ EliVndb.Client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Performs GET command</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_character/2">get_character(options, pid \\ EliVndb.Client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Performs GET command with character type</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_producer/2">get_producer(options, pid \\ EliVndb.Client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Performs GET command with producer type</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_release/2">get_release(options, pid \\ EliVndb.Client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Performs GET command with release type</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_staff/2">get_staff(options, pid \\ EliVndb.Client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Performs GET command with staff type</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_user/2">get_user(options, pid \\ EliVndb.Client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Performs GET command with user type</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_vn/2">get_vn(options, pid \\ EliVndb.Client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Performs GET command with vn type</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_vnlist/2">get_vnlist(options, pid \\ EliVndb.Client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Performs GET command with vnlist type</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_votelist/2">get_votelist(options, pid \\ EliVndb.Client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Performs GET command with votelist</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_wishlist/2">get_wishlist(options, pid \\ EliVndb.Client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Performs GET command with wishlist type</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#global_name/0">global_name()</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Returns name of global client</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#set/2">set(options, pid \\ EliVndb.Client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Performs SET command</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#set_vnlist/2">set_vnlist(options, pid \\ EliVndb.Client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Performs SET command with votelist type</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#set_votelist/2">set_votelist(options, pid \\ EliVndb.Client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Performs SET command with votelist type</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#set_wishlist/2">set_wishlist(options, pid \\ EliVndb.Client)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Performs SET command with votelist type</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#start_link/1">start_link(opts \\ [])</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Starts VNDB API Client without authorization</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#start_link/3">start_link(user, password, opts \\ [])</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Starts VNDB API Client with provided credentials</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#stop/0">stop()</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Stops global client</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#stop/1">stop(pid)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Stops particular client</p>
+</div>
+  
+</div>
+
+  </div>
+
+
+          
+
+        </section>
+      
+
+      
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <i class="icon-link"></i>
+            </a>
+            Types
+          </h1>
+          <div class="types-list">
+            <div class="detail" id="t:get_options/0">
+  
+  <div class="detail-header">
+    <a href="#t:get_options/0" class="detail-link" title="Link to this type">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_options()</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>get_options() :: [type: iodata, flags: [iodata], filters: iodata, options: <a href="https://hexdocs.pm/elixir/Map.html#t:t/0">Map.t</a>]</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Get command options</p>
+
+  </section>
+</div>
+<div class="detail" id="t:set_options/0">
+  
+  <div class="detail-header">
+    <a href="#t:set_options/0" class="detail-link" title="Link to this type">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">set_options()</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>set_options() :: [type: iodata, id: integer, fields: <a href="https://hexdocs.pm/elixir/Map.html#t:t/0">Map.t</a>]</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Set command options</p>
+
+  </section>
+</div>
+<div class="detail" id="t:start_options/0">
+  
+  <div class="detail-header">
+    <a href="#t:start_options/0" class="detail-link" title="Link to this type">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">start_options()</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>start_options() :: [{:global, boolean}]</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Client initialization options</p>
+
+  </section>
+</div>
+
+          </div>
+        </section>
+      
+
+      
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <i class="icon-link"></i>
+            </a>
+            Functions
+          </h1>
+          <div class="detail" id="dbstats/1">
+  
+    <span id="dbstats/0" />
+  
+  <div class="detail-header">
+    <a href="#dbstats/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">dbstats(pid \\ EliVndb.Client)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>dbstats(<a href="https://hexdocs.pm/elixir/GenServer.html#t:server/0">GenServer.server</a>) :: term</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Retrieves VNDB stats using particular client.</p>
+<p>Arguments:</p>
+<ul>
+<li><code class="inline">pid</code> - Client identifier. Global is used as default.
+</li>
+</ul>
+<p><a href="https://vndb.org/d11#4">Reference</a></p>
+<p>On success returns: <code class="inline">{:dbstats, map()}</code></p>
+
+  </section>
+</div>
+<div class="detail" id="get/2">
+  
+    <span id="get/1" />
+  
+  <div class="detail-header">
+    <a href="#get/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get(options, pid \\ EliVndb.Client)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>get(<a href="#t:get_options/0">get_options</a>, <a href="https://hexdocs.pm/elixir/GenServer.html#t:server/0">GenServer.server</a>) :: term</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Performs GET command.</p>
+<p><a href="https://vndb.org/d11#5">Reference</a></p>
+<p>Arguments:</p>
+<ul>
+<li><code class="inline">options</code> - Keyword list of command options. See below.
+</li>
+<li><code class="inline">pid</code> - Client identifier. Global is used as default.
+</li>
+</ul>
+<p>Options:</p>
+<ul>
+<li><code class="inline">:type</code> - Command type. See VNDB API for possible values.
+</li>
+<li><code class="inline">:flags</code> - Command flags as array of strings. Possible values depends on <code class="inline">:type</code>.
+</li>
+<li><code class="inline">:filters</code> - Command filters as string. Possible values depends on <code class="inline">:type</code>.
+</li>
+<li><code class="inline">:options</code> - Command options as map. VNDB API allows following keys: <code class="inline">page: integer</code>, <code class="inline">results: integer</code>, <code class="inline">sort: string</code>, <code class="inline">reverse: boolean</code>
+</li>
+</ul>
+<p>Following default values are used by EliVndb:</p>
+<ul>
+<li><code class="inline">flags = [&quot;basic&quot;]</code>
+</li>
+<li><code class="inline">filters = id &gt;= 1</code>
+</li>
+</ul>
+<p>On success returns: <code class="inline">{:results, map()}</code></p>
+
+  </section>
+</div>
+<div class="detail" id="get_character/2">
+  
+    <span id="get_character/1" />
+  
+  <div class="detail-header">
+    <a href="#get_character/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_character(options, pid \\ EliVndb.Client)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>get_character(<a href="#t:get_options/0">get_options</a>, <a href="https://hexdocs.pm/elixir/GenServer.html#t:server/0">GenServer.server</a>) :: term</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Performs GET command with character type.</p>
+<p>The same as <a href="EliVndb.Client.html#get/2"><code class="inline">EliVndb.Client.get/2</code></a></p>
+
+  </section>
+</div>
+<div class="detail" id="get_producer/2">
+  
+    <span id="get_producer/1" />
+  
+  <div class="detail-header">
+    <a href="#get_producer/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_producer(options, pid \\ EliVndb.Client)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>get_producer(<a href="#t:get_options/0">get_options</a>, <a href="https://hexdocs.pm/elixir/GenServer.html#t:server/0">GenServer.server</a>) :: term</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Performs GET command with producer type.</p>
+<p>The same as <a href="EliVndb.Client.html#get/2"><code class="inline">EliVndb.Client.get/2</code></a></p>
+
+  </section>
+</div>
+<div class="detail" id="get_release/2">
+  
+    <span id="get_release/1" />
+  
+  <div class="detail-header">
+    <a href="#get_release/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_release(options, pid \\ EliVndb.Client)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>get_release(<a href="#t:get_options/0">get_options</a>, <a href="https://hexdocs.pm/elixir/GenServer.html#t:server/0">GenServer.server</a>) :: term</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Performs GET command with release type.</p>
+<p>The same as <a href="EliVndb.Client.html#get/2"><code class="inline">EliVndb.Client.get/2</code></a></p>
+
+  </section>
+</div>
+<div class="detail" id="get_staff/2">
+  
+    <span id="get_staff/1" />
+  
+  <div class="detail-header">
+    <a href="#get_staff/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_staff(options, pid \\ EliVndb.Client)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>get_staff(<a href="#t:get_options/0">get_options</a>, <a href="https://hexdocs.pm/elixir/GenServer.html#t:server/0">GenServer.server</a>) :: term</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Performs GET command with staff type.</p>
+<p>The same as <a href="EliVndb.Client.html#get/2"><code class="inline">EliVndb.Client.get/2</code></a></p>
+
+  </section>
+</div>
+<div class="detail" id="get_user/2">
+  
+    <span id="get_user/1" />
+  
+  <div class="detail-header">
+    <a href="#get_user/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_user(options, pid \\ EliVndb.Client)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>get_user(<a href="#t:get_options/0">get_options</a>, <a href="https://hexdocs.pm/elixir/GenServer.html#t:server/0">GenServer.server</a>) :: term</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Performs GET command with user type.</p>
+<p>The same as <a href="EliVndb.Client.html#get/2"><code class="inline">EliVndb.Client.get/2</code></a></p>
+
+  </section>
+</div>
+<div class="detail" id="get_vn/2">
+  
+    <span id="get_vn/1" />
+  
+  <div class="detail-header">
+    <a href="#get_vn/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_vn(options, pid \\ EliVndb.Client)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>get_vn(<a href="#t:get_options/0">get_options</a>, <a href="https://hexdocs.pm/elixir/GenServer.html#t:server/0">GenServer.server</a>) :: term</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Performs GET command with vn type.</p>
+<p>The same as <a href="EliVndb.Client.html#get/2"><code class="inline">EliVndb.Client.get/2</code></a></p>
+
+  </section>
+</div>
+<div class="detail" id="get_vnlist/2">
+  
+    <span id="get_vnlist/1" />
+  
+  <div class="detail-header">
+    <a href="#get_vnlist/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_vnlist(options, pid \\ EliVndb.Client)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>get_vnlist(<a href="#t:get_options/0">get_options</a>, <a href="https://hexdocs.pm/elixir/GenServer.html#t:server/0">GenServer.server</a>) :: term</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Performs GET command with vnlist type.</p>
+<p>The same as <a href="EliVndb.Client.html#get/2"><code class="inline">EliVndb.Client.get/2</code></a></p>
+
+  </section>
+</div>
+<div class="detail" id="get_votelist/2">
+  
+    <span id="get_votelist/1" />
+  
+  <div class="detail-header">
+    <a href="#get_votelist/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_votelist(options, pid \\ EliVndb.Client)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>get_votelist(<a href="#t:get_options/0">get_options</a>, <a href="https://hexdocs.pm/elixir/GenServer.html#t:server/0">GenServer.server</a>) :: term</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Performs GET command with votelist.</p>
+<p>The same as <a href="EliVndb.Client.html#get/2"><code class="inline">EliVndb.Client.get/2</code></a></p>
+
+  </section>
+</div>
+<div class="detail" id="get_wishlist/2">
+  
+    <span id="get_wishlist/1" />
+  
+  <div class="detail-header">
+    <a href="#get_wishlist/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_wishlist(options, pid \\ EliVndb.Client)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>get_wishlist(<a href="#t:get_options/0">get_options</a>, <a href="https://hexdocs.pm/elixir/GenServer.html#t:server/0">GenServer.server</a>) :: term</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Performs GET command with wishlist type.</p>
+<p>The same as <a href="EliVndb.Client.html#get/2"><code class="inline">EliVndb.Client.get/2</code></a></p>
+
+  </section>
+</div>
+<div class="detail" id="global_name/0">
+  
+  <div class="detail-header">
+    <a href="#global_name/0" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">global_name()</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    <p>Returns name of global client.</p>
+
+  </section>
+</div>
+<div class="detail" id="set/2">
+  
+    <span id="set/1" />
+  
+  <div class="detail-header">
+    <a href="#set/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">set(options, pid \\ EliVndb.Client)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>set(<a href="#t:set_options/0">set_options</a>, <a href="https://hexdocs.pm/elixir/GenServer.html#t:server/0">GenServer.server</a>) :: term</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Performs SET command.</p>
+<p><a href="https://vndb.org/d11#6">Reference</a></p>
+<p>Arguments:</p>
+<ul>
+<li><code class="inline">options</code> - Keyword list of command options. See below.
+</li>
+<li><code class="inline">pid</code> - Client identifier. Global is used as default.
+</li>
+</ul>
+<p>Options:</p>
+<ul>
+<li><code class="inline">:type</code> - Command type. See VNDB API for possible values.
+</li>
+<li><code class="inline">:id</code> - Identifier of object on which to perform SET.
+</li>
+<li><code class="inline">:fields</code> - Map of object’s field to its new value.
+</li>
+</ul>
+
+  </section>
+</div>
+<div class="detail" id="set_vnlist/2">
+  
+    <span id="set_vnlist/1" />
+  
+  <div class="detail-header">
+    <a href="#set_vnlist/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">set_vnlist(options, pid \\ EliVndb.Client)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>set_vnlist(<a href="#t:set_options/0">set_options</a>, <a href="https://hexdocs.pm/elixir/GenServer.html#t:server/0">GenServer.server</a>) :: term</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Performs SET command with votelist type.</p>
+<p>The same as <a href="EliVndb.Client.html#set/2"><code class="inline">EliVndb.Client.set/2</code></a></p>
+
+  </section>
+</div>
+<div class="detail" id="set_votelist/2">
+  
+    <span id="set_votelist/1" />
+  
+  <div class="detail-header">
+    <a href="#set_votelist/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">set_votelist(options, pid \\ EliVndb.Client)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>set_votelist(<a href="#t:set_options/0">set_options</a>, <a href="https://hexdocs.pm/elixir/GenServer.html#t:server/0">GenServer.server</a>) :: term</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Performs SET command with votelist type.</p>
+<p>The same as <a href="EliVndb.Client.html#set/2"><code class="inline">EliVndb.Client.set/2</code></a></p>
+
+  </section>
+</div>
+<div class="detail" id="set_wishlist/2">
+  
+    <span id="set_wishlist/1" />
+  
+  <div class="detail-header">
+    <a href="#set_wishlist/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">set_wishlist(options, pid \\ EliVndb.Client)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>set_wishlist(<a href="#t:set_options/0">set_options</a>, <a href="https://hexdocs.pm/elixir/GenServer.html#t:server/0">GenServer.server</a>) :: term</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Performs SET command with votelist type.</p>
+<p>The same as <a href="EliVndb.Client.html#set/2"><code class="inline">EliVndb.Client.set/2</code></a></p>
+
+  </section>
+</div>
+<div class="detail" id="start_link/1">
+  
+    <span id="start_link/0" />
+  
+  <div class="detail-header">
+    <a href="#start_link/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">start_link(opts \\ [])</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>start_link(<a href="#t:start_options/0">start_options</a>) :: <a href="https://hexdocs.pm/elixir/GenServer.html#t:on_start/0">GenServer.on_start</a></pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Starts VNDB API Client without authorization.</p>
+<p>Note that some VNDB APIs may require you to provide login/password.</p>
+<p>Options:</p>
+<ul>
+<li><code class="inline">:global</code> - whether to register client globally.
+</li>
+</ul>
+
+  </section>
+</div>
+<div class="detail" id="start_link/3">
+  
+    <span id="start_link/2" />
+  
+  <div class="detail-header">
+    <a href="#start_link/3" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">start_link(user, password, opts \\ [])</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>start_link(binary | nil, binary | nil, <a href="#t:start_options/0">start_options</a>) :: <a href="https://hexdocs.pm/elixir/GenServer.html#t:on_start/0">GenServer.on_start</a></pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Starts VNDB API Client with provided credentials.</p>
+<p>Parameters:</p>
+<ul>
+<li><code class="inline">user</code> - Username to use for login. To omit provide <code class="inline">nil</code>
+</li>
+<li><code class="inline">password</code> - Password to use for login. To omit provide <code class="inline">nil</code>
+</li>
+</ul>
+<p>Options:</p>
+<ul>
+<li><code class="inline">:global</code> - whether to register client globally.
+</li>
+</ul>
+
+  </section>
+</div>
+<div class="detail" id="stop/0">
+  
+  <div class="detail-header">
+    <a href="#stop/0" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">stop()</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>stop() :: :ok</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Stops global client.</p>
+<p>Does nothing if client hasn’t been started.</p>
+
+  </section>
+</div>
+<div class="detail" id="stop/1">
+  
+  <div class="detail-header">
+    <a href="#stop/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">stop(pid)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>stop(<a href="https://hexdocs.pm/elixir/GenServer.html#t:server/0">GenServer.server</a>) :: :ok</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Stops particular client</p>
+
+  </section>
+</div>
+
+        </section>
+      
+
+      
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.15.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+        <button class="night-mode-toggle" />
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/app-e9767fa739.js"></script>
+  </body>
+</html>
+
