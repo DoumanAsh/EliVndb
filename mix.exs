@@ -37,6 +37,7 @@ defmodule EliVndb.Mixfile do
 
   defp package do
     [ maintainers: ["Douman"],
+      files: ~w(lib mix.exs README.md LICENSE),
       licenses: ["MIT"],
       links: %{ "Github" => "https://github.com/DoumanAsh/EliVndb" } ]
 end
