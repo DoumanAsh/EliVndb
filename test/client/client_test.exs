@@ -38,4 +38,24 @@ defmodule EliVndbTest.Client do
 
     assert :ok = EliVndb.Client.stop(local)
   end
+
+  test "get vn" do
+    {cmd, result} = EliVndb.Client.get(type: "vn")
+
+    assert :results == cmd
+    assert result["num"] == 10
+    assert result["more"] == true
+  end
+
+  test "get vn Suisou Ginka no Istoria with id 20471" do
+    {cmd, result} = EliVndb.Client.get_vn(filters: "(id = 20471)")
+
+    assert :results == cmd
+    assert result["more"] == false
+
+    assert [first | []] = result["items"]
+    assert first["title"] == "Suisou Ginka no Istoria"
+    assert first["original"] == "水葬銀貨のイストリア"
+  end
+
 end

@@ -4,9 +4,9 @@ defmodule EliVndb.Client do
 
   [VNDB API Refernce](https://vndb.org/d11)
 
-  There are two ways to work with `EliVndb.Client`
+  ## `EliVndb.Client` types
 
-  ## Global
+  ### Global
     In order to start global client use `EliVndb.Client.start_link/1` or `EliVndb.Client.start_link/3` without options or with `:global` set to true.
 
     Since the client registered globally, once client is started, all other API functions will become available.
@@ -14,12 +14,19 @@ defmodule EliVndb.Client do
     As VNDB allows login only once, you need to re-create it anew in order to re-login.
     You can use method `EliVndb.Client.stop/0` to terminate currently running global client.
 
-  ## Local
+  ### Local
     In order to start local client use `EliVndb.Client.start_link/1` or `EliVndb.Client.start_link/3` with `:global` set to false.
 
     To use local client, you'll need to provide its pid in all API calls.
 
     **NOTE:** VNDB allows only up to 10 clients from the same API. Global client is preferable way to work with VNDB API.
+
+  ## Get
+    Each get command requires to specify flags & filters.
+
+    Following default values are used by EliVndb:
+    * `flags = ["basic"]`
+    * `filters = id >= 1`
 
   ## Result
     Each function that returns map will has keys as strings.
@@ -44,6 +51,8 @@ defmodule EliVndb.Client do
   ##Client API
   @typedoc "Client initialization options"
   @type start_options :: [global: boolean()]
+  @typedoc "Get command options"
+  @type get_options :: [command: iodata(), flags: list(iodata()), filters: iodata(), options: Map.t()]
 
   @spec start_link(start_options()) :: GenServer.on_start()
   @doc """
@@ -103,22 +112,167 @@ defmodule EliVndb.Client do
   @doc """
   Retrieves VNDB stats using particular client.
 
+  Arguments:
+  * `pid` - Client identifier. Global is used as default.
+
   [Reference](https://vndb.org/d11#4)
 
   On success returns: `{:dbstats, map()}`
   """
-  def dbstats(pid) do
+  def dbstats(pid \\ @name) do
     GenServer.call(pid, :dbstats)
   end
 
-  @spec dbstats() :: term()
+  @spec get(get_options(), GenServer.server()) :: term()
   @doc """
-  Retrieves VNDB stats using global client.
+  Performs GET command.
 
-  See `EliVndb.Client.dbstats/1`
+  [Reference](https://vndb.org/d11#5)
+
+  Arguments:
+  * `options` - Keyword list of command options. See below.
+  * `pid` - Client identifier. Global is used as default.
+
+  Options:
+  * `:type` - Command type. See VNDB API for possible values.
+  * `:flags` - Command flags as array of strings. Possible values depends on `:type`.
+  * `:filters` - Command filters as string. Possible values depends on `:type`.
+  * `:options` - Command options as map. VNDB API allows following keys: `page: integer`, `results: integer`, `sort: string`, `reverse: boolean`
+
+  Following default values are used by EliVndb:
+  * `flags = ["basic"]`
+  * `filters = id >= 1`
+
+  On success returns: `{:results, map()}`
   """
-  def dbstats() do
-    dbstats(@name)
+  def get(options, pid \\ @name) do
+    GenServer.call(pid, {:get, options})
+  end
+
+  @spec get_vn(get_options(), GenServer.server()) :: term()
+  @doc """
+  Performs GET vn command.
+
+  [Reference](https://vndb.org/d11#5.1)
+
+  The same as `EliVndb.Client.get/2`
+
+  Except `:type = "vn"` by default.
+  """
+  def get_vn(options, pid \\ @name) do
+    get(Keyword.put(options, :type, "vn"), pid)
+  end
+
+  @spec get_release(get_options(), GenServer.server()) :: term()
+  @doc """
+  Performs GET release command.
+
+  [Reference](https://vndb.org/d11#5.2)
+
+  The same as `EliVndb.Client.get/2`
+
+  Except `:type = "release"` by default.
+  """
+  def get_release(options, pid \\ @name) do
+    get(Keyword.put(options, :type, "release"), pid)
+  end
+
+  @spec get_producer(get_options(), GenServer.server()) :: term()
+  @doc """
+  Performs GET release command.
+
+  [Reference](https://vndb.org/d11#5.3)
+
+  The same as `EliVndb.Client.get/2`
+
+  Except `:type = "producer"` by default.
+  """
+  def get_producer(options, pid \\ @name) do
+    get(Keyword.put(options, :type, "producer"), pid)
+  end
+
+  @spec get_character(get_options(), GenServer.server()) :: term()
+  @doc """
+  Performs GET character command.
+
+  [Reference](https://vndb.org/d11#5.4)
+
+  The same as `EliVndb.Client.get/2`
+
+  Except `:type = "character"` by default.
+  """
+  def get_character(options, pid \\ @name) do
+    get(Keyword.put(options, :type, "character"), pid)
+  end
+
+  @spec get_staff(get_options(), GenServer.server()) :: term()
+  @doc """
+  Performs GET staff command.
+
+  [Reference](https://vndb.org/d11#5.5)
+
+  The same as `EliVndb.Client.get/2`
+
+  Except `:type = "character"` by default.
+  """
+  def get_staff(options, pid \\ @name) do
+    get(Keyword.put(options, :type, "staff"), pid)
+  end
+
+  @spec get_user(get_options(), GenServer.server()) :: term()
+  @doc """
+  Performs GET user command.
+
+  [Reference](https://vndb.org/d11#5.6)
+
+  The same as `EliVndb.Client.get/2`
+
+  Except `:type = "user"` by default.
+  """
+  def get_user(options, pid \\ @name) do
+    get(Keyword.put(options, :type, "user"), pid)
+  end
+
+  @spec get_votelist(get_options(), GenServer.server()) :: term()
+  @doc """
+  Performs GET votelist command.
+
+  [Reference](https://vndb.org/d11#5.7)
+
+  The same as `EliVndb.Client.get/2`
+
+  Except `:type = "votelist"` by default.
+  """
+  def get_votelist(options, pid \\ @name) do
+    get(Keyword.put(options, :type, "votelist"), pid)
+  end
+
+  @spec get_vnlist(get_options(), GenServer.server()) :: term()
+  @doc """
+  Performs GET vnlist command.
+
+  [Reference](https://vndb.org/d11#5.8)
+
+  The same as `EliVndb.Client.get/2`
+
+  Except `:type = "vnlist"` by default.
+  """
+  def get_vnlist(options, pid \\ @name) do
+    get(Keyword.put(options, :type, "vnlist"), pid)
+  end
+
+  @spec get_wishlist(get_options(), GenServer.server()) :: term()
+  @doc """
+  Performs GET wishlist command.
+
+  [Reference](https://vndb.org/d11#5.9)
+
+  The same as `EliVndb.Client.get/2`
+
+  Except `:type = "wishlist"` by default.
+  """
+  def get_wishlist(options, pid \\ @name) do
+    get(Keyword.put(options, :type, "wishlist"), pid)
   end
 
   ## Server callbacks
@@ -141,6 +295,15 @@ defmodule EliVndb.Client do
 
   def handle_call(:dbstats, from, %{queue: queue} = state) do
     :ok = :ssl.send(state.socket, vndb_msg("dbstats"))
+
+    {:noreply, Map.put(state, :queue, :queue.in(from, queue))}
+  end
+
+  def handle_call({:get, args}, from, %{queue: queue} = state) do
+    msg = vndb_msg("get #{args[:type]} #{get_flags(args)} #{get_filters(args)} #{get_options(args)}")
+
+    Logger.info fn -> 'Send get vn=#{msg}' end
+    :ok = :ssl.send(state.socket, msg)
 
     {:noreply, Map.put(state, :queue, :queue.in(from, queue))}
   end
@@ -173,11 +336,40 @@ defmodule EliVndb.Client do
   @spec vndb_msg(String.t(), map()) :: String.t()
   defp vndb_msg(command, args) do "#{command} #{Poison.encode!(args)}" <> @msg_end end
 
+  # Login utils
   @spec login_args(nil, nil) :: map()
   defp login_args(nil, nil) do @login_args end
 
+  @spec login_args(String.t(), String.t()) :: map()
   defp login_args(username, password) do
     Map.merge(@login_args, %{username: username, password: password})
   end
+
+  # Get utils
+  @spec get_flags(Map.t()) :: binary()
+  defp get_flags(args) do
+    case Keyword.get(args, :flags) do
+      nil -> "basic"
+      flags -> Enum.join(flags, ",")
+    end
+  end
+
+  @spec get_filters(Map.t()) :: binary()
+  defp get_filters(args) do
+    case Keyword.get(args, :filters) do
+      nil -> "(id >= 1)"
+      filters -> filters
+    end
+  end
+
+  @spec get_options(Map.t()) :: iodata()
+  defp get_options(args) do
+    case Keyword.get(args, :options) do
+      nil -> ""
+      %{} -> ""
+      opts -> Poison.encode!(opts)
+    end
+  end
+
 end
 
