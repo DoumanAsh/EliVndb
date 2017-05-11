@@ -1,8 +1,14 @@
 # EliVndb
 
+[![Build Status](https://travis-ci.org/DoumanAsh/EliVndb.svg?branch=master)](https://travis-ci.org/DoumanAsh/EliVndb)
+
 Kawaii VNDB API for Elixir
 
 [VNDB API Refernce](https://vndb.org/d11)
+
+## Documentation
+
+[Master](https://doumanash.github.io/EliVndb)
 
 ## EliVndb.Client types
 
