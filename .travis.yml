@@ -12,4 +12,5 @@ script:
   - mix test
 
 after_success:
-  - bash -x ./ci/update_page.sh
+  - mix docs
+  - bash ./ci/update_page.sh
