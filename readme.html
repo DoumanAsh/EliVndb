@@ -8,7 +8,7 @@
     <title>EliVndb – EliVndb v0.2.0</title>
     <link rel="stylesheet" href="dist/app-af302bfcc4.css" />
     
-    <script src="dist/sidebar_items-8763d0c33e.js"></script>
+    <script src="dist/sidebar_items-e5582916ba.js"></script>
   </head>
   <body data-type="extras">
     <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
@@ -94,14 +94,20 @@ You can use method <a href="EliVndb.Client.html#stop/0"><code class="inline">Eli
 <ul>
 <li><code class="inline">flags = [&quot;basic&quot;]</code>
 </li>
-<li><code class="inline">filters = id &gt;= 1</code>
+<li><code class="inline">filters = (id &gt;= 1)</code>
 </li>
 </ul>
 <p>On success it returns <code class="inline">{:results, %{...}}</code></p>
 <h3>set</h3>
 <p>Each set command requires you to provide ID of modified object.</p>
-<p>On success it returns <code class="inline">{:ok, ${...}}</code></p>
+<p>On success it returns <code class="inline">{:ok, %{...}}</code></p>
 <p><strong>NOTE:</strong> For set commands successful response contains empty payload as of now. You might as well to ignore it.</p>
+<h2 id="result" class="section-heading">
+  <a href="#result" class="hover-link"><i class="icon-link"></i></a>
+  Result
+</h2>
+
+<p>Each function that returns map with keys as strings.</p>
 <h2 id="installation" class="section-heading">
   <a href="#installation" class="hover-link"><i class="icon-link"></i></a>
   Installation

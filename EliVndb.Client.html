@@ -8,7 +8,7 @@
     <title>EliVndb.Client – EliVndb v0.2.0</title>
     <link rel="stylesheet" href="dist/app-af302bfcc4.css" />
     
-    <script src="dist/sidebar_items-8763d0c33e.js"></script>
+    <script src="dist/sidebar_items-e5582916ba.js"></script>
   </head>
   <body data-type="modules">
     <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
@@ -74,41 +74,41 @@
 </h2>
 
 <h3>Global</h3>
-<p>  In order to start global client use <a href="EliVndb.Client.html#start_link/1"><code class="inline">EliVndb.Client.start_link/1</code></a> or <a href="EliVndb.Client.html#start_link/3"><code class="inline">EliVndb.Client.start_link/3</code></a> without options or with <code class="inline">:global</code> set to true.</p>
-<p>  Since the client registered globally, once client is started, all other API functions will become available.</p>
-<p>  As VNDB allows login only once, you need to re-create it anew in order to re-login.
-  You can use method <a href="EliVndb.Client.html#stop/0"><code class="inline">EliVndb.Client.stop/0</code></a> to terminate currently running global client.</p>
+<p>In order to start global client use <a href="EliVndb.Client.html#start_link/1"><code class="inline">EliVndb.Client.start_link/1</code></a> or <a href="EliVndb.Client.html#start_link/3"><code class="inline">EliVndb.Client.start_link/3</code></a> without options or with <code class="inline">:global</code> set to true.</p>
+<p>Since the client registered globally, once client is started, all other API functions will become available.</p>
+<p>As VNDB allows login only once, you need to re-create it anew in order to re-login.
+You can use method <a href="EliVndb.Client.html#stop/0"><code class="inline">EliVndb.Client.stop/0</code></a> to terminate currently running global client.</p>
 <h3>Local</h3>
-<p>  In order to start local client use <a href="EliVndb.Client.html#start_link/1"><code class="inline">EliVndb.Client.start_link/1</code></a> or <a href="EliVndb.Client.html#start_link/3"><code class="inline">EliVndb.Client.start_link/3</code></a> with <code class="inline">:global</code> set to false.</p>
-<p>  To use local client, you’ll need to provide its pid in all API calls.</p>
-<p>  <strong>NOTE:</strong> VNDB allows only up to 10 clients from the same API. Global client is preferable way to work with VNDB API.</p>
+<p>In order to start local client use <a href="EliVndb.Client.html#start_link/1"><code class="inline">EliVndb.Client.start_link/1</code></a> or <a href="EliVndb.Client.html#start_link/3"><code class="inline">EliVndb.Client.start_link/3</code></a> with <code class="inline">:global</code> set to false.</p>
+<p>To use local client, you’ll need to provide its pid in all API calls.</p>
+<p><strong>NOTE:</strong> VNDB allows only up to 10 clients from the same API. Global client is preferable way to work with VNDB API.</p>
 <h2 id="module-available-commands" class="section-heading">
   <a href="#module-available-commands" class="hover-link"><i class="icon-link"></i></a>
   Available commands
 </h2>
 
 <h3>dbstats</h3>
-<p>  Just retrieves statistics from VNDB.</p>
+<p>Just retrieves statistics from VNDB.</p>
 <h3>get</h3>
-<p>  Each get command requires to specify flags &amp; filters.</p>
-<p>  Following default values are used by EliVndb:</p>
+<p>Each get command requires to specify flags &amp; filters.</p>
+<p>Following default values are used by EliVndb:</p>
 <ul>
 <li><code class="inline">flags = [&quot;basic&quot;]</code>
 </li>
-<li><p><code class="inline">filters = (id &gt;= 1)</code></p>
-<p>  On success it returns <code class="inline">{:results, %{...}}</code></p>
+<li><code class="inline">filters = (id &gt;= 1)</code>
 </li>
 </ul>
+<p>On success it returns <code class="inline">{:results, %{...}}</code></p>
 <h3>set</h3>
-<p>  Each set command requires you to provide ID of modified object.</p>
-<p>  On success it returns <code class="inline">{:ok, ${...}}</code></p>
-<p>  <strong>NOTE:</strong> For set commands successful response contains empty payload as of now. You might as well to ignore it.</p>
+<p>Each set command requires you to provide ID of modified object.</p>
+<p>On success it returns <code class="inline">{:ok, %{...}}</code></p>
+<p><strong>NOTE:</strong> For set commands successful response contains empty payload as of now. You might as well to ignore it.</p>
 <h2 id="module-result" class="section-heading">
   <a href="#module-result" class="hover-link"><i class="icon-link"></i></a>
   Result
 </h2>
 
-<p>  Each function that returns map will has keys as strings.</p>
+<p>Each function that returns map with keys as strings.</p>
 
         </section>
       
