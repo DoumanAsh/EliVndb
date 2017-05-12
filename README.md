@@ -37,16 +37,20 @@ Each get command requires to specify flags & filters.
 
 Following default values are used by EliVndb:
 * `flags = ["basic"]`
-* `filters = id >= 1`
+* `filters = (id >= 1)`
 
 On success it returns `{:results, %{...}}`
 
 ### set
 Each set command requires you to provide ID of modified object.
 
-On success it returns `{:ok, ${...}}`
+On success it returns `{:ok, %{...}}`
 
 **NOTE:** For set commands successful response contains empty payload as of now. You might as well to ignore it.
+
+## Result
+
+Each function that returns map with keys as strings.
 
 ## Installation
 
