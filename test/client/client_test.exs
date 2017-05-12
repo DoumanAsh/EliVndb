@@ -1,4 +1,5 @@
 defmodule EliVndbTest.Client do
+  import EliVndb.Filters
   use ExUnit.Case, async: true
   doctest EliVndb.Client
 
@@ -48,7 +49,7 @@ defmodule EliVndbTest.Client do
   end
 
   test "get vn Suisou Ginka no Istoria with id 20471" do
-    {cmd, result} = EliVndb.Client.get_vn(filters: "(id = 20471)")
+    {cmd, result} = EliVndb.Client.get_vn(filters: filters(id = 20471))
 
     assert :results == cmd
     assert result["more"] == false

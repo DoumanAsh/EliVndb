@@ -31,7 +31,7 @@ defmodule EliVndb.Client do
 
     Following default values are used by EliVndb:
     * `flags = ["basic"]`
-    * `filters = id >= 1`
+    * `filters = (id >= 1)`
 
     On success it returns `{:results, %{...}}`
 
