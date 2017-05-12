@@ -10,6 +10,8 @@ Kawaii VNDB API for Elixir
 
 [Master](https://doumanash.github.io/EliVndb)
 
+[Stable](https://hexdocs.pm/elivndb)
+
 ## EliVndb.Client types
 
 ### Global
