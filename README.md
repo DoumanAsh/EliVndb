@@ -58,6 +58,6 @@ Each function that returns map with keys as strings.
 
 ```elixir
 def deps do
-  [{:vndb, "~> 0.1.0"}]
+  [{:vndb, "~> 0.2.0"}]
 end
 ```
