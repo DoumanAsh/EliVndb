@@ -363,8 +363,20 @@ defmodule EliVndb.Client do
     {:noreply, Map.put(state, :queue, new_queue)}
   end
 
-  def handle_info(msg, _state) do
-    Logger.warn fn -> "Received unhandled message=#{msg}" end
+  def handle_info({:ssl_closed, _socket}, state) do
+    # Reconnect and clean queue
+    {:ok, state} = init(state)
+    {:noreply, Map.put(state, :queue, :queue.new())}
+  end
+
+  def handle_info({:ssl_error, _socket, reason}, state) do
+    Logger.error fn -> "SSL Error happend. Reason: #{reason}" end
+    {:noreply, state}
+  end
+
+  def handle_info(msg, state) do
+    Logger.warn fn -> "Received unhandled message=#{inspect(msg)}" end
+    {:noreply, state}
   end
 
   ## Utils
