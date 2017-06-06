@@ -365,6 +365,7 @@ defmodule EliVndb.Client do
 
   def handle_info({:ssl_closed, _socket}, state) do
     # Reconnect and clean queue
+    Logger.warn fn -> "Connection toward VNDB is closed. Try to re-connect" end
     {:ok, state} = init(state)
     {:noreply, Map.put(state, :queue, :queue.new())}
   end
