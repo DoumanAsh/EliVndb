@@ -7,7 +7,7 @@ defmodule EliVndb.Mixfile do
 
   def project do
     [app: :elivndb,
-     version: "0.2.2",
+     version: "0.2.3",
      elixir: "~> 1.4",
      description: @description,
      package: package(),
@@ -40,5 +40,5 @@ defmodule EliVndb.Mixfile do
       files: ~w(lib mix.exs README.md LICENSE),
       licenses: ["MIT"],
       links: %{ "Github" => "https://github.com/DoumanAsh/EliVndb" } ]
-end
+  end
 end

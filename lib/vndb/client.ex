@@ -312,19 +312,17 @@ defmodule EliVndb.Client do
   ## Server callbacks
   def init(state) do
     Logger.info 'Connect to VNDB'
-    {:ok, socket} = :ssl.connect(@host, @ssl_port, @default_opts, :infinity)
 
-    login_args = login_args(state.user, state.password)
-    msg = vndb_msg("login", login_args)
-
-    Logger.info fn -> 'Send login=#{msg}' end
-    :ok = :ssl.send(socket, msg)
-    {:ok, data} = :ssl.recv(socket, 0)
-    Logger.info fn -> 'Login response=#{data}' end
-
-    :ssl.setopts(socket, active: true)
-
-    {:ok, %{state | socket: socket}}
+    case :ssl.connect(@host, @ssl_port, @default_opts, :infinity) do
+      {:ok, socket} ->
+        vndg_log_in(socket, state.user, state.password)
+        :ssl.setopts(socket, active: true)
+        {:ok, %{state | socket: socket}}
+      error ->
+        Logger.warn fn -> 'Failed to connect with VNDB. Error=#{inspect(error)}' end
+        :timer.sleep(:timer.seconds(30))
+        init(state)
+    end
   end
 
   def handle_call(:dbstats, from, %{queue: queue} = state) do
@@ -381,6 +379,16 @@ defmodule EliVndb.Client do
   end
 
   ## Utils
+  defp vndg_log_in(socket, user, password) do
+    login_args = login_args(user, password)
+    msg = vndb_msg("login", login_args)
+
+    Logger.info fn -> 'Send login=#{msg}' end
+    :ok = :ssl.send(socket, msg)
+    {:ok, data} = :ssl.recv(socket, 0)
+    Logger.info fn -> 'Login response=#{data}' end
+  end
+
   @spec vndb_msg_parse(String.t()) :: tuple()
   defp vndb_msg_parse(msg) do
     case String.split(String.trim_trailing(msg, @msg_end), " ", parts: 2) do
