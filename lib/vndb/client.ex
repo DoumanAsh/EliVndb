@@ -361,9 +361,17 @@ defmodule EliVndb.Client do
     {:noreply, Map.put(state, :queue, new_queue)}
   end
 
-  def handle_info({:ssl_closed, _socket}, state) do
+  def handle_info({:ssl_closed, _socket}, %{queue: queue} = state) do
     # Reconnect and clean queue
     Logger.warn fn -> "Connection toward VNDB is closed. Try to re-connect" end
+
+    # Reply to user in case VNDB disconnects in the middle of request
+    # as it is quite possible.
+    case :queue.out(queue) do
+      {{:value, client}, _} -> GenServer.reply(client, {:error, "VNDB disconnected"})
+      _ -> nil
+    end
+
     {:ok, state} = init(state)
     {:noreply, Map.put(state, :queue, :queue.new())}
   end
