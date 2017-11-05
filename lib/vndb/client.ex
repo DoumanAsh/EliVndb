@@ -313,7 +313,7 @@ defmodule EliVndb.Client do
   def init(state) do
     Logger.info 'Connect to VNDB'
 
-    case :ssl.connect(@host, @ssl_port, @default_opts, :infinity) do
+    case :ssl.connect(@host, @ssl_port, @default_opts, 5000) do
       {:ok, socket} ->
         vndg_log_in(socket, state.user, state.password)
         :ssl.setopts(socket, active: true)

@@ -7,7 +7,7 @@ defmodule EliVndb.Mixfile do
 
   def project do
     [app: :elivndb,
-     version: "0.2.4",
+     version: "0.2.5",
      elixir: "~> 1.4",
      description: @description,
      package: package(),
